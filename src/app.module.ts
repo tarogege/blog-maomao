@@ -10,10 +10,10 @@ const localDbUrl =
   'mongodb://admin:123456@localhost:27017/nest?authSource=admin';
 
   const uri = process.env.MONGODB_URI;
-  console.log(uri)
-  // const testUrl = 'mongodb+srv://admin:maomao1234@0.0.0.0:27017/nest?authSource=admin'
+  let mongodbUrl = uri || localDbUrl
+
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot(testUrl), AuthModule],
+  imports: [UsersModule, MongooseModule.forRoot(mongodbUrl), AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
