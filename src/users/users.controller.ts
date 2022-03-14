@@ -8,13 +8,14 @@ export class UsersController {
     // 注册
   @Post()
     regist(@Body('user') user) {
-        // console.log(body, 'body')
+        console.log(user, 'body')
     return this.userService.regist(user);
     }
 
     // 登录
     @Post('/login')
     login(@Body('user') user) {
+        console.log(user, 'user')
         return this.userService.login(user)
     }
 
