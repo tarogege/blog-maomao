@@ -5,7 +5,6 @@ import { UsersModule } from './users/users.module';
 
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
-import { ArticleModule } from './article/article.module';
 
 
 const localDbUrl =
@@ -15,7 +14,7 @@ const localDbUrl =
   let mongodbUrl = uri || localDbUrl
 
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot(mongodbUrl), AuthModule, ArticleModule],
+  imports: [UsersModule, MongooseModule.forRoot(mongodbUrl), AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
