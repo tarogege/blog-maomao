@@ -35,22 +35,27 @@ export class UsersService {
     // get current
     async getUser(token: string) {
         console.log(token, 'token')
-        // const userInfo = await this.authService.verify(token.slice(7))
-        // const userOne = await this.userModel.findById(userInfo?.userId)
-        // if (!userOne) {
-        //     throw new NotFoundError('用户不存在')
-        // }
-        // return { user: userOne }
-        return {}
+        if (token) {
+            const userInfo = await this.authService.verify(token.slice(7))
+            const userOne = await this.userModel.findById(userInfo?.userId)
+            if (!userOne) {
+                throw new NotFoundError('用户不存在')
+            }
+            return { user: userOne }
+        }
+        throw new NotFoundError('无权限')
     }
 
     async update(user: User, token: string) {
-        // const userInfo = await this.authService.verify(token.slice(7))
-        // const userOne = this.userModel.findById(userInfo?.userId)
-        // if (!userOne) {
-        //     throw new NotFoundError('用户不存在')
-        // }
-        // await this.userModel.updateOne({_id: userInfo?.userId}, {$set: user})
-        return '更新成功'
+        if (token) {
+            const userInfo = await this.authService.verify(token.slice(7))
+            const userOne = this.userModel.findById(userInfo?.userId)
+            if (!userOne) {
+                throw new NotFoundError('用户不存在')
+            }
+            await this.userModel.updateOne({_id: userInfo?.userId}, {$set: user})
+            return '更新成功'
+        }
+        throw new NotFoundError('无权限')
     }
 }
