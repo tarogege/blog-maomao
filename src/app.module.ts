@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
 const localDbUrl =
   'mongodb://admin:123456@localhost:27017/nest?authSource=admin';
 
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env.MONGODB_URL;
   let mongodbUrl = uri || localDbUrl
 
 @Module({
