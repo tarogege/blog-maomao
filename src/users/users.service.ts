@@ -35,7 +35,7 @@ export class UsersService {
     // get current
     async getUser(token: string) {
         console.log(token, 'token')
-        const userInfo = await this.authService.verify(token.slice(7))
+        const userInfo = await this.authService.verify(token)
         const userOne = await this.userModel.findById(userInfo?.userId)
         if (!userOne) {
             throw new NotFoundError('用户不存在')
@@ -44,7 +44,7 @@ export class UsersService {
     }
 
     async update(user: User, token: string) {
-        const userInfo = await this.authService.verify(token.slice(7))
+        const userInfo = await this.authService.verify(token)
         const userOne = this.userModel.findById(userInfo?.userId)
         if (!userOne) {
             throw new NotFoundError('用户不存在')
