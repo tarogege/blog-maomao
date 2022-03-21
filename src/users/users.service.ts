@@ -57,7 +57,7 @@ export class UsersService {
         if (!userOne) {
             throw new NotFoundException('用户不存在')
         }
-        const newUser = await this.userModel.findByIdAndUpdate(userInfo?.id, user)
+        const newUser = await this.userModel.findByIdAndUpdate(userInfo?.userId, user)
         console.log(newUser, 'new')
         return { user: newUser }
     }
