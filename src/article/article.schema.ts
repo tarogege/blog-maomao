@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { UserDocument } from 'src/users/user.schema';
+import * as mongoose from 'mongoose';
 
 export type ArticleDocument = Article & Document;
 
@@ -33,7 +34,7 @@ export class Article {
     @Prop()
     "favoritesCount": number;
 
-    @Prop({ ref: 'UserModel' })
+    @Prop({ ref: 'UserModel', type: mongoose.Schema.Types.ObjectId })
     "author": UserDocument
 }
 
