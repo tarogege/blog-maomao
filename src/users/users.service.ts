@@ -47,15 +47,18 @@ export class UsersService {
     }
 
     async update(user: User, token: string) {
+        console.log(token, 'token')
         if (!token) {
             throw new UnauthorizedException('无权限')
         }
         const userInfo = await this.authService.verify(token)
         const userOne = await this.userModel.findById(userInfo?.userId)
+        console.log(userOne, 'one')
         if (!userOne) {
             throw new NotFoundException('用户不存在')
         }
         const newUser = await this.userModel.findByIdAndUpdate(userInfo?.id, user)
+        console.log(newUser, 'new')
         return { user: newUser }
     }
 }
