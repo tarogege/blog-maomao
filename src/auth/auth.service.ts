@@ -16,6 +16,7 @@ export class AuthService {
     // 验证
    async verify(value: any) {
        const token = value.split('Bearer')[1]
+       console.log(token, 'tokennnnn')
        const result = await this.jwtService.verifyAsync(token)
        return result
    }
