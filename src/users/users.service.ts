@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDocument, User } from './user.schema';
 import { Model } from 'mongoose'
-import { NotFoundError } from 'rxjs';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class UsersService {
     async login(user: User) {
         let one = await  this.userModel.findOne(user)
         if (!one) {
-            throw new NotFoundError('用户不存在')
+            throw new NotFoundException('用户不存在')
         }
         const token = await this.authService.sign({ userId: one._id })
         const newUser = one.toJSON() as any
@@ -35,20 +35,27 @@ export class UsersService {
     // get current
     async getUser(token: string) {
         console.log(token, 'token')
+        if (!token) {
+            throw new UnauthorizedException('无权限')
+        }
         const userInfo = await this.authService.verify(token)
         const userOne = await this.userModel.findById(userInfo?.userId)
         if (!userOne) {
-            throw new NotFoundError('用户不存在')
+            throw new NotFoundException('用户不存在')
         }
-        throw new NotFoundError('无权限')
+        return { user: userOne }
     }
 
     async update(user: User, token: string) {
-        const userInfo = await this.authService.verify(token)
-        const userOne = this.userModel.findById(userInfo?.userId)
-        if (!userOne) {
-            throw new NotFoundError('用户不存在')
+        if (!token) {
+            throw new UnauthorizedException('无权限')
         }
-        throw new NotFoundError('无权限')
+        const userInfo = await this.authService.verify(token)
+        const userOne = await this.userModel.findById(userInfo?.userId)
+        if (!userOne) {
+            throw new NotFoundException('用户不存在')
+        }
+        const newUser = await this.userModel.findByIdAndUpdate(userInfo?.id, user)
+        return { user: newUser }
     }
 }
