@@ -25,7 +25,7 @@ export class ArticleService {
             query.author = author
         }
         if (name) {
-            query.name = name
+            query.title = name
         }
         console.log(query, 'query')
         const articles = await this.articleModel.find(query).skip(limit*page).limit(limit)
@@ -54,36 +54,36 @@ export class ArticleService {
     }
 
     // 更新文章
-    // async updateArticle(article: Article, token: string) {
-    //     if (!token) {
-    //         throw new UnauthorizedException('无权限')
-    //     }
-    //     const userInfo = await this.authServive.verify(token)
-    //     let newArticle = await this.articleModel.findById(article?.id)
-    //     if (!newArticle) {
-    //         throw new NotFoundException('找不到文章')
-    //     }
-    //     if (newArticle?.author?.id !== userInfo?.id) {
-    //         throw new UnauthorizedException('无权限')
-    //     }
-    //     newArticle = await this.articleModel.findByIdAndUpdate(article?.id, article)
-    //     return { article: newArticle }
-    // }
+    async updateArticle(id: string, article: Article, token: string) {
+        if (!token) {
+            throw new UnauthorizedException('无权限')
+        }
+        const userInfo = await this.authServive.verify(token)
+        let newArticle = await this.articleModel.findById(id)
+        if (!newArticle) {
+            throw new NotFoundException('找不到文章')
+        }
+        if (newArticle?.author?.id !== userInfo?.id) {
+            throw new UnauthorizedException('无权限')
+        }
+        newArticle = await this.articleModel.findByIdAndUpdate(id, article)
+        return { article: newArticle }
+    }
 
     // 删除文章
-    // async deleteArticle(token: string, id: string) {
-    //     if (!token) {
-    //         throw new UnauthorizedException('无权限')
-    //     }
-    //     const userInfo = await this.authServive.verify(token)
-    //     let article = await this.articleModel.findById(id)
-    //     if (!article) {
-    //         throw new NotFoundException('找不到文章')
-    //     }
-    //     if (article?.author?.id !== userInfo?.id) {
-    //         throw new UnauthorizedException('无权限')
-    //     }
-    //     article = await this.articleModel.findByIdAndDelete(id)
-    //     return {}
-    // }
+    async deleteArticle(token: string, id: string) {
+        if (!token) {
+            throw new UnauthorizedException('无权限')
+        }
+        const userInfo = await this.authServive.verify(token)
+        let article = await this.articleModel.findById(id)
+        if (!article) {
+            throw new NotFoundException('找不到文章')
+        }
+        if (article?.author?.id !== userInfo?.id) {
+            throw new UnauthorizedException('无权限')
+        }
+        article = await this.articleModel.findByIdAndDelete(id)
+        return {}
+    }
 }
