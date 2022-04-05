@@ -15,7 +15,7 @@ export class ArticleService {
     ) {}
 
     // 文章列表
-    async getArticles({tag, author, limit = 10, page = 0}) {
+    async getArticles({tag, author, name, limit = 10, page = 0}) {
         // 根据一些查询参数进行筛选artilce并且分页
         const query: any = {}
         if (tag) {
@@ -23,6 +23,9 @@ export class ArticleService {
         }
         if (author) {
             query.author = author
+        }
+        if (name) {
+            query.name = name
         }
         const articles = await this.articleModel.find(query).skip(limit*page).limit(limit)
         return { articles }

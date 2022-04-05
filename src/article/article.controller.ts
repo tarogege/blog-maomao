@@ -9,9 +9,9 @@ export class ArticleController {
     ) {}
 
     @Get()
-    getArticles(@Query('tag') tag: string, @Query('author') author: string, @Body('limit') limit: number, @Body('page') page: number ) {
+    getArticles(@Query('tag') tag: string, @Query('author') author: string, @Query('name') namne: string, @Body('limit') limit: number, @Body('page') page: number ) {
         // @param @query @body
-        return this.articleService.getArticles({tag, author, limit, page})
+        return this.articleService.getArticles({tag, author, limit, page, name})
     }
 
     @Get()
