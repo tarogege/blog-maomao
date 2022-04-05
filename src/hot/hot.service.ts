@@ -16,17 +16,21 @@ export class HotService {
             console.log(hotList, 'hot')
             const resObj = $(hotList).map((idx, item) => {
                 const avatar = $(item).find('.user_avatar img').attr('src')
+                const username = $(item).find('.user_avatar img').attr('title')
                 console.log(avatar)
                 const title =  $(item).find('.topic_title').text().trim().split('\n')[0]
                 const lastActiveTime = $(item).find('.last_active_time').text().trim().split('\n')[0]
                 const repliesCount = $(item).find('.count_of_replies').text().trim().split('\n')[0]
                 const visitCount = $(item).find('.count_of_visits').text().trim().split('\n')[0]
+                const id = $(item).find('.topic_title').attr('href')?.slice(7)
                 return {
                     avatar,
                     title,
                     lastActiveTime,
                     repliesCount,
                     visitCount,
+                    username,
+                    id
                 }
             }).toArray()
                 
@@ -37,5 +41,24 @@ export class HotService {
                 return err
             }
         }
+    }
+
+    async getHotDetail (id: string) {
+        try {
+            const res = await superagent.get(`https://cnodejs.org/topic/${id}`)
+            const $ = cheerio.load(res?.text)
+            const contentWrapepr = $('.content .panel:first-child')
+            const title = $(contentWrapepr).find('.topic_full_title').text().trim().split('\n')
+            const content = $(contentWrapepr).find('.markdown-text').html()
+            return {
+                title,
+                content
+            }
+        } catch (err) {
+            if (err) {
+                return err
+            }
+        }
+        
     }
 }

@@ -19,13 +19,13 @@ export class ArticleService {
         // 根据一些查询参数进行筛选artilce并且分页
         const query: any = {}
         if (tag) {
-            query.tag = tag
+            query.tag = decodeURIComponent(tag)
         }
         if (author) {
-            query.author = author
+            query.author = decodeURIComponent(author)
         }
         if (name) {
-            query.title = name
+            query.title = decodeURIComponent(name)
         }
         console.log(query, 'query')
         const articles = await this.articleModel.find(query).skip(limit*page).limit(limit)

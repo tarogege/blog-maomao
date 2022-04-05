@@ -12,6 +12,7 @@ export class ArticleController {
     @Get()
     getArticles(@Query('tag') tag: string, @Query('author') author: string, @Query('name') name: string, @Query('limit') limit: number, @Query('page') page: number ) {
         // @param @query @body
+        // 中文可能会乱码，所以要用encodeURIComponet，decodeURIComponent
         return this.articleService.getArticles({tag, author, limit, page, name})
     }
 
