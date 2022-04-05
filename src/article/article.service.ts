@@ -27,6 +27,7 @@ export class ArticleService {
         if (name) {
             query.name = name
         }
+        console.log(query, 'query')
         const articles = await this.articleModel.find(query).skip(limit*page).limit(limit)
         return { articles }
     }
