@@ -61,4 +61,8 @@ export class UsersService {
         console.log(newUser, 'new')
         return { user: newUser }
     }
+
+    async getUses() {
+
+    }
 }
