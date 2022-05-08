@@ -5,7 +5,8 @@ import * as mongoose from 'mongoose';
 
 export type ArticleDocument = Article & Document;
 
-@Schema()
+// 通过添加timeStaps选项，自动添加createAt和updatedAt字段，type：Date，defatul：Date.now
+@Schema({timestamps: true})
 export class Article {
     @Prop()
     "slug": string;
@@ -21,12 +22,6 @@ export class Article {
 
     @Prop({ })
     "tagList": string[];
-
-    @Prop({ value: Date.now() })
-    "createdAt": Date;
-
-    @Prop({ value: Date.now() })
-    "updatedAt": Date;
 
     @Prop()
     "favorited": boolean;
