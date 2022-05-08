@@ -32,7 +32,7 @@ export class HotService {
                     username,
                     id
                 }
-            }).toArray()
+            }).toArray().slice(4)
                 
             return {res: resObj}
         } catch(err) {
